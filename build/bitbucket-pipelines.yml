@@ -1,0 +1,170 @@
+image: microsoft/dotnet:sdk
+
+.set_environment: &setenv |
+  export SOLUTION_NAME=DAS.Inventory
+  export CMD_PROJECT=DAS.Inventory.Command
+  export PROJECTION_PROJECT=DAS.Inventory.Projections
+  export QUERY_PROJECT=DAS.Inventory.Query
+  export PACK_PROJECTS=DAS.Inventory.Messaging
+  export CMD_DOCKER_IMAGE=gcr.io/dasplatform-production/das/inventory.command
+  export PROJECTION_DOCKER_IMAGE=gcr.io/dasplatform-production/das/inventory.projections
+  export QUERY_DOCKER_IMAGE=gcr.io/dasplatform-production/das/inventory.query
+  export CMD_DEPLOYMENT_NAME=inventory-command
+  export PROJECTION_DEPLOYMENT_NAME=inventory-projections
+  export QUERY_DEPLOYMENT_NAME=inventory-query
+  chmod +x -R build   
+
+.gcloud_auth: &gcloudAuth |
+  echo $GCP_CREDS_DEV | base64 --decode --ignore-garbage > ./gcloud-api-key.json
+  gcloud auth activate-service-account --key-file gcloud-api-key.json
+  gcloud auth configure-docker --quiet
+  gcloud config set project $GCP_PROJECT
+  gcloud container clusters get-credentials reticle --region us-central1-a
+
+# dev: Build, Test, Deploy to dev
+# master: Build, Test, Analyze, no deploy
+# all else: Build, Test
+
+pipelines:
+  default:
+    - step: &buildtest
+        name: Build, Test
+        image:
+          name: gcr.io/dasplatform-production/microsoft/dotnet:2.2-build
+          username: _json_key
+          password: '$GCP_CREDS_DEV_UNENC'
+        caches:
+          - dotnetcore
+        script:    
+          - *setenv 
+          - build/build.ps1 -Solution $SOLUTION_NAME -MyGetSource $NUGET_SOURCE -Test
+  branches:
+    dev:
+      - parallel:
+        - step: *buildtest
+        - step:
+            name: Publish netcore artifacts
+            image:
+              name: gcr.io/dasplatform-production/microsoft/dotnet:2.2-build
+              username: _json_key
+              password: '$GCP_CREDS_DEV_UNENC'
+            artifacts:              
+              - src/DAS.Inventory.Command/out/** 
+              - src/DAS.Inventory.Projections/out/**
+              - src/DAS.Inventory.Query/out/**             
+            script:
+              - *setenv
+              - build/publish-binaries.ps1 -Project $CMD_PROJECT -MyGetSource $NUGET_SOURCE
+              - build/publish-binaries.ps1 -Project $PROJECTION_PROJECT -MyGetSource $NUGET_SOURCE
+              - build/publish-binaries.ps1 -Project $QUERY_PROJECT -MyGetSource $NUGET_SOURCE    
+      - step:
+          name: Build and push docker image
+          image:
+              name: gcr.io/dasplatform-production/google/cloud-sdk
+              username: _json_key
+              password: '$GCP_CREDS_DEV_UNENC'
+          caches:
+              - docker
+          script:
+            - *setenv
+            - *gcloudAuth
+            - build/build-docker.ps1 -Project $CMD_PROJECT -MyGetSource $NUGET_SOURCE -Name $CMD_DOCKER_IMAGE -Tag $BITBUCKET_COMMIT -Push -NoBuild
+            - build/build-docker.ps1 -Project $PROJECTION_PROJECT -MyGetSource $NUGET_SOURCE -Name $PROJECTION_DOCKER_IMAGE -Tag $BITBUCKET_COMMIT -Push -NoBuild
+            - build/build-docker.ps1 -Project $QUERY_PROJECT -MyGetSource $NUGET_SOURCE -Name $QUERY_DOCKER_IMAGE -Tag $BITBUCKET_COMMIT -Push -NoBuild
+          services:
+            - docker
+      - step:
+          name: Deploy to Dev
+          deployment: test
+          image:
+            name: gcr.io/dasplatform-production/google/cloud-sdk
+            username: _json_key
+            password: '$GCP_CREDS_DEV_UNENC'
+          script:
+            - *setenv
+            - *gcloudAuth
+            - kubectl apply -f kube/dev-cmd.yaml # this is where helm could be nice
+            - kubectl apply -f kube/dev-projections.yaml
+            - kubectl apply -f kube/dev-query.yaml
+            - kubectl set image -n dev deploy/$CMD_DEPLOYMENT_NAME $CMD_DEPLOYMENT_NAME=$CMD_DOCKER_IMAGE:$BITBUCKET_COMMIT
+            - kubectl set image -n dev deploy/$PROJECTION_DEPLOYMENT_NAME $PROJECTION_DEPLOYMENT_NAME=$PROJECTION_DOCKER_IMAGE:$BITBUCKET_COMMIT
+            - kubectl set image -n dev deploy/$QUERY_DEPLOYMENT_NAME $QUERY_DEPLOYMENT_NAME=$QUERY_DOCKER_IMAGE:$BITBUCKET_COMMIT
+    master:
+      - parallel:
+        - step: 
+            name: Build, Test, Analyze
+            image:
+              name: gcr.io/dasplatform-production/microsoft/dotnet:2.2-build
+              username: _json_key
+              password: '$GCP_CREDS_DEV_UNENC'
+            caches:
+              - dotnetcore
+            script:    
+              - *setenv 
+              - build/build.ps1 -Solution $SOLUTION_NAME -MyGetSource $NUGET_SOURCE -Test -Analyze -SonarUrl $SONAR_URL -SonarKey $SONAR_KEY     
+        - step:
+            name: Publish netcore, Push NuGet
+            image:
+              name: gcr.io/dasplatform-production/microsoft/dotnet:2.2-build
+              username: _json_key
+              password: '$GCP_CREDS_DEV_UNENC'
+            artifacts:
+              - src/DAS.Inventory.Command/out/** 
+              - src/DAS.Inventory.Projections/out/**
+              - src/DAS.Inventory.Query/out/**    
+            script:
+              - *setenv
+              - build/publish-binaries.ps1 -Project $CMD_PROJECT -MyGetSource $NUGET_SOURCE
+              - build/publish-binaries.ps1 -Project $PROJECTION_PROJECT -MyGetSource $NUGET_SOURCE
+              - build/publish-binaries.ps1 -Project $QUERY_PROJECT -MyGetSource $NUGET_SOURCE    
+              - build/pack-nuget.ps1 -Projects $PACK_PROJECTS -MyGetSource $NUGET_SOURCE -BuildNumber $BITBUCKET_BUILD_NUMBER -ClearPackages -Push
+      - step:
+          name: Build and push docker image
+          caches:
+            - docker
+          image:
+              name: gcr.io/dasplatform-production/google/cloud-sdk
+              username: _json_key
+              password: '$GCP_CREDS_DEV_UNENC'
+          script: 
+            - *setenv            
+            - *gcloudAuth
+            - build/build-docker.ps1 -Project $CMD_PROJECT -MyGetSource $NUGET_SOURCE -Name $CMD_DOCKER_IMAGE -Tag $BITBUCKET_COMMIT -Push -NoBuild
+            - build/build-docker.ps1 -Project $PROJECTION_PROJECT -MyGetSource $NUGET_SOURCE -Name $PROJECTION_DOCKER_IMAGE -Tag $BITBUCKET_COMMIT -Push -NoBuild
+            - build/build-docker.ps1 -Project $QUERY_PROJECT -MyGetSource $NUGET_SOURCE -Name $QUERY_DOCKER_IMAGE -Tag $BITBUCKET_COMMIT -Push -NoBuild
+          services:
+            - docker       
+      - step:
+          name: Deploy to Staging/QA
+          deployment: staging
+          image: 
+            name: gcr.io/dasplatform-production/google/cloud-sdk
+            username: _json_key
+            password: '$GCP_CREDS_DEV_UNENC'
+          script: 
+            - *setenv
+            - *gcloudAuth
+            - kubectl apply -f kube/qa-cmd.yaml # this is where helm could be nice
+            - kubectl apply -f kube/qa-projections.yaml
+            - kubectl apply -f kube/qa-query.yaml
+            - kubectl set image -n qa deploy/$CMD_DEPLOYMENT_NAME $CMD_DEPLOYMENT_NAME=$CMD_DOCKER_IMAGE:$BITBUCKET_COMMIT
+            - kubectl set image -n qa deploy/$PROJECTION_DEPLOYMENT_NAME $PROJECTION_DEPLOYMENT_NAME=$PROJECTION_DOCKER_IMAGE:$BITBUCKET_COMMIT
+            - kubectl set image -n qa deploy/$QUERY_DEPLOYMENT_NAME $QUERY_DEPLOYMENT_NAME=$QUERY_DOCKER_IMAGE:$BITBUCKET_COMMIT
+    release:
+      - step:
+          name: Deploy to Production
+          deployment: production
+          trigger: manual
+          image:
+              name: gcr.io/dasplatform-production/google/cloud-sdk
+              username: _json_key
+              password: '$GCP_CREDS_DEV_UNENC'
+          script:
+            - *setenv
+            - *gcloudAuth
+            - kubectl apply -f kube/prod-cmd.yaml # this is where helm could be nice
+            - kubectl apply -f kube/prod-projections.yaml
+            - kubectl apply -f kube/prod-query.yaml
+            - kubectl set image -n prod deploy/$CMD_DEPLOYMENT_NAME $CMD_DEPLOYMENT_NAME=$CMD_DOCKER_IMAGE:$BITBUCKET_COMMIT
+            - kubectl set image -n prod deploy/$PROJECTION_DEPLOYMENT_NAME $PROJECTION_DEPLOYMENT_NAME=$PROJECTION_DOCKER_IMAGE:$BITBUCKET_COMMIT
+            - kubectl set image -n prod deploy/$QUERY_DEPLOYMENT_NAME $QUERY_DEPLOYMENT_NAME=$QUERY_DOCKER_IMAGE:$BITBUCKET_COMMIT
