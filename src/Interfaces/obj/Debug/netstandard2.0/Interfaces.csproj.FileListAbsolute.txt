@@ -1,0 +1,9 @@
+C:\Users\jstaf\source\misc\dddnoesororm\src\Interfaces\obj\Debug\netstandard2.0\Interfaces.csprojAssemblyReference.cache
+C:\Users\jstaf\source\misc\dddnoesororm\src\Interfaces\obj\Debug\netstandard2.0\Interfaces.csproj.CoreCompileInputs.cache
+C:\Users\jstaf\source\misc\dddnoesororm\src\Interfaces\obj\Debug\netstandard2.0\Interfaces.AssemblyInfoInputs.cache
+C:\Users\jstaf\source\misc\dddnoesororm\src\Interfaces\obj\Debug\netstandard2.0\Interfaces.AssemblyInfo.cs
+C:\Users\jstaf\source\misc\dddnoesororm\src\Interfaces\bin\Debug\netstandard2.0\Interfaces.deps.json
+C:\Users\jstaf\source\misc\dddnoesororm\src\Interfaces\bin\Debug\netstandard2.0\Interfaces.dll
+C:\Users\jstaf\source\misc\dddnoesororm\src\Interfaces\bin\Debug\netstandard2.0\Interfaces.pdb
+C:\Users\jstaf\source\misc\dddnoesororm\src\Interfaces\obj\Debug\netstandard2.0\Interfaces.dll
+C:\Users\jstaf\source\misc\dddnoesororm\src\Interfaces\obj\Debug\netstandard2.0\Interfaces.pdb
