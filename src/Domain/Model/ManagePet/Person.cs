@@ -42,25 +42,5 @@ namespace Domain.Model.ManagePet
 
             _pets.RemoveAll(p => p.PetId.Equals(petId));
         }
-
-        public PersonState GetState()
-        {
-            return new PersonState
-            {
-                PersonId = PersonId.Id,
-                Pets = Pets.Select(p => p.GetState()).ToList()
-            };
-        }
-
-        public static Person Load(PersonState state)
-        {
-            var person = new Person
-            {
-                PersonId = new PersonId(state.PersonId),
-                _pets = state.Pets.Select(Pet.Load).ToList()
-            };
-
-            return person;
-        }
     }
 }

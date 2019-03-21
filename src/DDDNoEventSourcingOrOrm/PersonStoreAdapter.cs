@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using AutoMapper;
 using Domain.Model;
 using Domain.Model.ManagePet;
 using Domain.Shared;
@@ -9,22 +10,25 @@ namespace DDDNoEventSourcingOrOrm
     public class PersonStoreAdapter : IPersonStore
     {
         private readonly IPersonRepository _repository;
+        private readonly IMapper _mapper;
 
-        public PersonStoreAdapter(IPersonRepository repository)
+        public PersonStoreAdapter(IPersonRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<PersonId> SavePersonAsync(Person person)
         {
-            await _repository.SavePersonAsync(person.GetState());
+            var state = _mapper.Map<PersonState>(person);
+            await _repository.SavePersonAsync(state);
             return person.PersonId;
         }
 
         public async Task<Person> GetAsync(PersonId id)
         {
             var state = await _repository.GetAsync(id.Id);
-            return Person.Load(state);
+            return _mapper.Map<Person>(state);
         }
     }
 }

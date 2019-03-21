@@ -10,3 +10,15 @@ C:\Users\jstaf\source\misc\dddnoesororm\src\Domain\bin\Debug\netstandard2.0\Inte
 C:\Users\jstaf\source\misc\dddnoesororm\src\Domain\obj\Debug\netstandard2.0\Domain.csproj.CopyComplete
 C:\Users\jstaf\source\misc\dddnoesororm\src\Domain\obj\Debug\netstandard2.0\Domain.dll
 C:\Users\jstaf\source\misc\dddnoesororm\src\Domain\obj\Debug\netstandard2.0\Domain.pdb
+C:\source\scrap\demo-ddd_noes_noorm\src\Domain\bin\Debug\netstandard2.0\Domain.deps.json
+C:\source\scrap\demo-ddd_noes_noorm\src\Domain\bin\Debug\netstandard2.0\Domain.dll
+C:\source\scrap\demo-ddd_noes_noorm\src\Domain\bin\Debug\netstandard2.0\Domain.pdb
+C:\source\scrap\demo-ddd_noes_noorm\src\Domain\bin\Debug\netstandard2.0\Interfaces.dll
+C:\source\scrap\demo-ddd_noes_noorm\src\Domain\bin\Debug\netstandard2.0\Interfaces.pdb
+C:\source\scrap\demo-ddd_noes_noorm\src\Domain\obj\Debug\netstandard2.0\Domain.csprojAssemblyReference.cache
+C:\source\scrap\demo-ddd_noes_noorm\src\Domain\obj\Debug\netstandard2.0\Domain.csproj.CoreCompileInputs.cache
+C:\source\scrap\demo-ddd_noes_noorm\src\Domain\obj\Debug\netstandard2.0\Domain.AssemblyInfoInputs.cache
+C:\source\scrap\demo-ddd_noes_noorm\src\Domain\obj\Debug\netstandard2.0\Domain.AssemblyInfo.cs
+C:\source\scrap\demo-ddd_noes_noorm\src\Domain\obj\Debug\netstandard2.0\Domain.csproj.CopyComplete
+C:\source\scrap\demo-ddd_noes_noorm\src\Domain\obj\Debug\netstandard2.0\Domain.dll
+C:\source\scrap\demo-ddd_noes_noorm\src\Domain\obj\Debug\netstandard2.0\Domain.pdb

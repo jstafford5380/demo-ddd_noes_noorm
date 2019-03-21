@@ -195,23 +195,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\jstaf\\.nuget\\packages\\": {},
+    "C:\\Users\\jestafford\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jstaf\\source\\misc\\dddnoesororm\\src\\Infrastructure\\Infrastructure.csproj",
+      "projectUniqueName": "C:\\source\\scrap\\demo-ddd_noes_noorm\\src\\Infrastructure\\Infrastructure.csproj",
       "projectName": "Infrastructure",
-      "projectPath": "C:\\Users\\jstaf\\source\\misc\\dddnoesororm\\src\\Infrastructure\\Infrastructure.csproj",
-      "packagesPath": "C:\\Users\\jstaf\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jstaf\\source\\misc\\dddnoesororm\\src\\Infrastructure\\obj\\",
+      "projectPath": "C:\\source\\scrap\\demo-ddd_noes_noorm\\src\\Infrastructure\\Infrastructure.csproj",
+      "packagesPath": "C:\\Users\\jestafford\\.nuget\\packages\\",
+      "outputPath": "C:\\source\\scrap\\demo-ddd_noes_noorm\\src\\Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\jstaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\jestafford\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -219,13 +219,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "http://devcustomweb01.ssg.petsmart.com/PetSmartNuGet/nuget": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netstandard2.0": {
           "projectReferences": {
-            "C:\\Users\\jstaf\\source\\misc\\dddnoesororm\\src\\Interfaces\\Interfaces.csproj": {
-              "projectPath": "C:\\Users\\jstaf\\source\\misc\\dddnoesororm\\src\\Interfaces\\Interfaces.csproj"
+            "C:\\source\\scrap\\demo-ddd_noes_noorm\\src\\Interfaces\\Interfaces.csproj": {
+              "projectPath": "C:\\source\\scrap\\demo-ddd_noes_noorm\\src\\Interfaces\\Interfaces.csproj"
             }
           }
         }

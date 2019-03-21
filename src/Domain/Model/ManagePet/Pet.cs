@@ -28,30 +28,6 @@ namespace Domain.Model.ManagePet
             return pet;
         }
 
-        public PetState GetState()
-        {
-            return new PetState
-            {
-                PetId = PetId.Id,
-                Name = Name,
-                SpeciesId = SpeciesId.Id,
-                IsActive = IsActive
-            };
-        }
-
-        public static Pet Load(PetState state)
-        {
-            var pet = new Pet
-            {
-                PetId = new PetId(state.PetId),
-                Name = state.Name,
-                SpeciesId = new SpeciesId(state.SpeciesId),
-                IsActive = state.IsActive
-            };
-
-            return pet;
-        }
-
         public override bool Equals(object obj)
         {
             return Equals(obj as Pet);
