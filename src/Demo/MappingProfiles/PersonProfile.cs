@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using Demo.Domain.Model.ManagePet;
+using Demo.Domain.UseCases.ManagePet;
+using Demo.Domain.UseCases.ManagePet.Model;
 using Demo.Interface;
 
 namespace Demo.MappingProfiles

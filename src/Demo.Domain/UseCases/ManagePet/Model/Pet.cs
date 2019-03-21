@@ -4,7 +4,7 @@ using Demo.Domain.Shared;
 // ReSharper disable NonReadonlyMemberInGetHashCode
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 
-namespace Demo.Domain.Model.ManagePet
+namespace Demo.Domain.UseCases.ManagePet.Model
 {
     public class Pet
     {

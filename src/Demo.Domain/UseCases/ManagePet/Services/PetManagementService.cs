@@ -1,10 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
-using Demo.Domain.Model;
-using Demo.Domain.Model.ManagePet;
 using Demo.Domain.Shared;
+using Demo.Domain.UseCases.ManagePet.Model;
 
-namespace Demo.Domain.Services
+namespace Demo.Domain.UseCases.ManagePet.Services
 {
     public class PetManagementService : IPetManagementService
     {

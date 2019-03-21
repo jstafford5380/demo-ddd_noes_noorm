@@ -5,17 +5,20 @@ using Demo.Domain.Shared;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Local
 
-namespace Demo.Domain.Model.ManagePet
+namespace Demo.Domain.UseCases.ManagePet.Model
 {
     /// <summary>
     /// Aggregate root for the Person-Pet aggregate
     /// </summary>
     public class Person
     {
-        public PersonId PersonId { get; private set; }
-
         private List<Pet> _pets = new List<Pet>();
+
         public IReadOnlyCollection<Pet> Pets => _pets;
+
+        public PersonId PersonId { get; private set; }
+        
+        
 
         private Person() { }
 

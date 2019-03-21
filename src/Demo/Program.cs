@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Demo.Domain.Model;
-using Demo.Domain.Model.ManagePet;
-using Demo.Domain.Services;
 using Demo.Domain.Shared;
+using Demo.Domain.UseCases;
+using Demo.Domain.UseCases.ManagePet;
+using Demo.Domain.UseCases.ManagePet.Model;
+using Demo.Domain.UseCases.ManagePet.Services;
 using Demo.Interface;
 using Demo.MappingProfiles;
 using Microsoft.Extensions.DependencyInjection;

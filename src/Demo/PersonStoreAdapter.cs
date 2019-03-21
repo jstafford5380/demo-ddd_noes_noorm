@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using Demo.Domain.Model;
-using Demo.Domain.Model.ManagePet;
 using Demo.Domain.Shared;
+using Demo.Domain.UseCases;
+using Demo.Domain.UseCases.ManagePet;
+using Demo.Domain.UseCases.ManagePet.Model;
 using Demo.Interface;
 
 namespace Demo
