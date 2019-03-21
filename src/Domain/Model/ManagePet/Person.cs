@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Domain.Shared;
-using Interfaces;
+
+// ReSharper disable FieldCanBeMadeReadOnly.Local
 
 namespace Domain.Model.ManagePet
 {
@@ -27,20 +28,22 @@ namespace Domain.Model.ManagePet
             return person;
         }
 
-        public void AddPet(Pet petToAdd)
+        public Exception AddPet(Pet petToAdd)
         {
             if(Pets.Any(p => p.Equals(petToAdd)))
-                throw new InvalidOperationException("Cannot add a pet that is already loaded against the person.");
+                return new InvalidOperationException("Cannot add a pet that is already loaded against the person.");
 
             _pets.Add(petToAdd);
+            return null;
         }
 
-        public void DeletePet(PetId petId)
+        public Exception DeletePet(PetId petId)
         {
             if(!_pets.Any(p => p.PetId.Equals(petId)))
-                throw new InvalidOperationException("Cannot delete a pet that does not exist.");
+                return new InvalidOperationException("Cannot delete a pet that does not exist.");
 
             _pets.RemoveAll(p => p.PetId.Equals(petId));
+            return null;
         }
     }
 }

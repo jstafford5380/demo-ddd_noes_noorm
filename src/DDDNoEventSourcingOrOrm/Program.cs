@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using AutoMapper;
 using DDDNoEventSourcingOrOrm.MappingProfiles;
 using Domain.Model;
 using Domain.Model.ManagePet;

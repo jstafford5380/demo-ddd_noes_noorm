@@ -1,6 +1,7 @@
 ﻿using System;
 using Domain.Shared;
-using Interfaces;
+// ReSharper disable NonReadonlyMemberInGetHashCode
+// ReSharper disable UnusedAutoPropertyAccessor.Local
 
 namespace Domain.Model.ManagePet
 {
