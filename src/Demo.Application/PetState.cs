@@ -1,4 +1,4 @@
-﻿namespace Demo.Interface
+﻿namespace Demo.Application
 {
     public class PetState
     {

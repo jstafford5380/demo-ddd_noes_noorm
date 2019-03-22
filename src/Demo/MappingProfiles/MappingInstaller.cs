@@ -9,7 +9,7 @@ namespace Demo.MappingProfiles
         public static void AddMappers(this IServiceCollection services)
         {
             services.AddAutoMapper(config => config.AddProfiles(
-                Assembly.Load("Demo.Domain"), Assembly.Load("Demo.Interface")));
+                Assembly.Load("Demo.Domain"), Assembly.Load("Demo.Application")));
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Demo.Interface;
+using Demo.Application;
 
 namespace Demo.Infrastructure.Data
 {
@@ -27,6 +27,4 @@ namespace Demo.Infrastructure.Data
             return Task.FromResult(state);
         }
     }
-
-    
 }

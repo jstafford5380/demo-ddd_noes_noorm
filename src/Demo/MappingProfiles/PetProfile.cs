@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using Demo.Domain.UseCases.ManagePet;
-using Demo.Domain.UseCases.ManagePet.Model;
-using Demo.Interface;
+using Demo.Application;
+using Demo.Domain.ManagePetContext.Model;
 
 namespace Demo.MappingProfiles
 {
@@ -19,6 +18,18 @@ namespace Demo.MappingProfiles
                 {
                     o.MapFrom(src => src.SpeciesId);
                     o.ConvertUsing(new SpeciesIdConverter(), state => state.SpeciesId);
+                });
+
+            CreateMap<Pet, PetState>()
+                .ForMember(dest => dest.PetId, o =>
+                {
+                    o.MapFrom(src => src.PetId);
+                    o.ConvertUsing(new PetIdConverter(), src => src.PetId);
+                })
+                .ForMember(dest => dest.SpeciesId, o =>
+                {
+                    o.MapFrom(src => src.SpeciesId);
+                    o.ConvertUsing(new SpeciesIdConverter(), src => src.SpeciesId);
                 });
         }
     }

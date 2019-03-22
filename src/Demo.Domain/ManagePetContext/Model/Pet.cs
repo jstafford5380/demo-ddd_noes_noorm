@@ -4,7 +4,7 @@ using Demo.Domain.Shared;
 // ReSharper disable NonReadonlyMemberInGetHashCode
 // ReSharper disable UnusedAutoPropertyAccessor.Local
 
-namespace Demo.Domain.UseCases.ManagePet.Model
+namespace Demo.Domain.ManagePetContext.Model
 {
     public class Pet
     {
@@ -24,7 +24,8 @@ namespace Demo.Domain.UseCases.ManagePet.Model
             {
                 PetId = new PetId(Guid.NewGuid().ToString()),
                 SpeciesId = speciesId,
-                Name = name
+                Name = name,
+                IsActive = true
             };
 
             return pet;
@@ -37,11 +38,11 @@ namespace Demo.Domain.UseCases.ManagePet.Model
 
         protected bool Equals(Pet other)
         {
-            return other == null ||
-                   PetId.Equals(other.PetId) ||
-                   (string.Equals(Name, other.Name) 
-                    && SpeciesId.Equals(other.SpeciesId)
-                    && IsActive == other.IsActive);
+            if (other == null) return false;
+            if (other.PetId.Equals(PetId)) return true;
+            return string.Equals(Name, other.Name)
+                   && SpeciesId.Equals(other.SpeciesId)
+                   && IsActive == other.IsActive;
         }
 
         public override int GetHashCode()
