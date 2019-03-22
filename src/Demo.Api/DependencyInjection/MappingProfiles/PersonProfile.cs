@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Demo.Api.ViewModel;
 using Demo.Application.Infrastructure;
 using Demo.Domain.ManagePetContext.Model;
-using Demo.ViewModel;
 
 namespace Demo.Api.DependencyInjection.MappingProfiles
 {
@@ -26,11 +26,11 @@ namespace Demo.Api.DependencyInjection.MappingProfiles
         }
     }
 
-    public class NewPetViewModelProfile : Profile
+    public class PetViewModelProfile : Profile
     {
-        public NewPetViewModelProfile()
+        public PetViewModelProfile()
         {
-            CreateMap<NewPetInfo, PetState>();
+            CreateMap<PetInfo, PetState>();
         }
     }
 }
