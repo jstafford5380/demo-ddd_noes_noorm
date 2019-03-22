@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Demo.Api.DependencyInjection.MappingProfiles;
 using Demo.Application.Infrastructure;
 using Demo.Application.UseCases.ManagingPets;
-using Demo.Domain.ManagePetContext.Model;
 using Demo.Domain.ManagePetContext.Services;
 using Demo.Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
@@ -37,6 +34,7 @@ namespace Demo.Api
                 repo.Setup().Wait();
                 return repo;
             });
+            services.AddScoped<IPersonEventStream, PersonEventRepository>();
             services.AddScoped<IPetManagementService, PetManagementDomain>();
             services.AddScoped<IManagePets, PetManagementApplication>();
             services.AddMappers();

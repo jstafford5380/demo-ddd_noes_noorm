@@ -1,6 +1,4 @@
-﻿using Demo.Application.UseCases.ManagingPets;
-
-namespace Demo.Application.UseCases
+﻿namespace Demo.Application.UseCases
 {
     public class ApplicationResponse<T>
     {

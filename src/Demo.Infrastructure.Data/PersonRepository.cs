@@ -49,6 +49,53 @@ namespace Demo.Infrastructure.Data
         }
     }
 
+    public class PersonEventRepository : EventRepository, IPersonEventStream
+    {
+        /*
+         * This demonstrates the usage of domain events to perform smaller
+         * updates on entities when state transfer doesn't make sense
+         **/
+
+        public PersonEventRepository()
+        {
+            RegisterHandlers();
+        }
+
+        public async Task SaveAsync(Person person)
+        {
+            foreach (var e in person.UncommittedEvents)
+                await DispatchAsync(e);
+        }
+
+        private Task Handle(PetDeleted e)
+        {
+            return Task.CompletedTask;
+        }
+
+        private Task Handle(PetCreated e)
+        {
+            return Task.CompletedTask;
+        }
+
+        private Task Handle(PetUpdated e)
+        {
+            return Task.CompletedTask;
+        }
+
+        private Task Handle(PetAdded e)
+        {
+            return Task.CompletedTask;
+        }
+
+        protected void RegisterHandlers()
+        {
+            AddHandler<PetCreated>(Handle);
+            AddHandler<PetAdded>(Handle);
+            AddHandler<PetUpdated>(Handle);
+            AddHandler<PetDeleted>(Handle);
+        }
+    }
+
 
     public class StaticStorage<T, K> : Dictionary<T, K>
     {

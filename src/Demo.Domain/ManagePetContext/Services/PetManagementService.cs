@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Demo.Domain.ManagePetContext.Model;
+﻿using Demo.Domain.ManagePetContext.Model;
 using Demo.Domain.Shared;
 
 namespace Demo.Domain.ManagePetContext.Services
@@ -14,16 +12,16 @@ namespace Demo.Domain.ManagePetContext.Services
 
     public class PetManagementService : IPetManagementService
     {
-        public Task<Exception> AddPetAsync(Person person, Pet pet)
+        public ErrorEvent AddPet(Person person, Pet pet)
         {
-            var error = person.AddPet(pet);
-            return Task.FromResult(error);
+            var result = person.AddPet(pet);
+            return result;
         }
 
-        public Task<Exception> DeletePetAsync(Person person, PetId petId)
+        public ErrorEvent DeletePet(Person person, PetId petId)
         {
-            var error = person.DeletePet(petId);
-            return Task.FromResult(error);
+            var result = person.DeletePet(petId);
+            return result;
         }
     }
 }
