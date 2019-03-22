@@ -45,3 +45,6 @@ Normally, this pattern has the domain entities exposing and loading their state 
 
 ## Persisting State
 The state objects should contain everything needed to restore the entity and allow state updates but no more. For example, "CreatedDate" might be a field in the database, but if I can't update that through some sort of business action and if that date isn't needed to enforce business rules, then it should be left out of the domain model.
+
+## Disclaimer
+Really, the `IPersonRepository` shouldn't take or deliver those state objects. Repositories should only ever save aggregate roots. This is how you make sure that only "Domain approved" states are persisted.
