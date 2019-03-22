@@ -52,9 +52,8 @@ namespace Demo.Application.UseCases.ManagingPets
             var error = await _domainService.AddPetAsync(person, newPet);
             if (error != null) // we checked earlier so this is an exceptional exception
                 throw error;
-
-            var updatedPersonState = _mapper.Map<PersonState>(person);
-            await _personRepository.SavePersonAsync(updatedPersonState);
+            
+            await _personRepository.SavePersonAsync(person);
 
             var resultPet = _mapper.Map<PetState>(newPet);
             return new ApplicationResponse<PetState>(true, ResponseType.Success, resultPet, "ok");
@@ -80,8 +79,7 @@ namespace Demo.Application.UseCases.ManagingPets
             if(updateError != null)
                 return new ApplicationResponse<PetState>(false, ResponseType.BusinessRuleViolation, updateError.Message);
 
-            var updatedPersonState = _mapper.Map<PersonState>(person);
-            await _personRepository.SavePersonAsync(updatedPersonState);
+            await _personRepository.SavePersonAsync(person);
 
             return new ApplicationResponse<PetState>(true, ResponseType.Success, updatedPet, "ok");
         }
@@ -99,9 +97,7 @@ namespace Demo.Application.UseCases.ManagingPets
                 return new ApplicationResponse<PetState>(false, ResponseType.EntityNotFound, $"The customer does not own this pet or it is already inactive.");
 
             await _domainService.DeletePetAsync(person, ptId);
-
-            var updatePersonState = _mapper.Map<PersonState>(person);
-            await _personRepository.SavePersonAsync(updatePersonState);
+            await _personRepository.SavePersonAsync(person);
 
             return new ApplicationResponse<PetState>(true, ResponseType.Success, "ok");
         }

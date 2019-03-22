@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
+using Demo.Domain.ManagePetContext.Model;
 
 namespace Demo.Application.Infrastructure
 {
     public interface IPersonRepository
     {
-        Task<string> SavePersonAsync(PersonState person);
+        Task<string> SavePersonAsync(Person person);
 
-        Task<PersonState> GetAsync(string id);
+        Task<Person> GetAsync(string id);
     }
 }

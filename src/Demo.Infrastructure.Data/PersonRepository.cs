@@ -1,16 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Demo.Application;
+using AutoMapper;
 using Demo.Application.Infrastructure;
+using Demo.Domain.ManagePetContext.Model;
 
 namespace Demo.Infrastructure.Data
 {
     public class PersonRepository : IPersonRepository
     {
+        private readonly IMapper _mapper;
         private readonly Dictionary<string, PersonState> _fakeDatabase = new Dictionary<string, PersonState>();
 
-        public Task<string> SavePersonAsync(PersonState state)
+        public PersonRepository(IMapper mapper)
         {
+            _mapper = mapper;
+        }
+
+        public Task<string> SavePersonAsync(Person person)
+        {
+            var state = _mapper.Map<PersonState>(person);
             if(!_fakeDatabase.ContainsKey(state.PersonId))
                 _fakeDatabase.Add(state.PersonId, null);
 
@@ -19,13 +27,14 @@ namespace Demo.Infrastructure.Data
             return Task.FromResult(state.PersonId);
         }
 
-        public Task<PersonState> GetAsync(string id)
+        public Task<Person> GetAsync(string id)
         {
             if (!_fakeDatabase.ContainsKey(id))
                 return null;
 
             var state = _fakeDatabase[id];
-            return Task.FromResult(state);
+            var person = _mapper.Map<Person>(state);
+            return Task.FromResult(person);
         }
     }
 }

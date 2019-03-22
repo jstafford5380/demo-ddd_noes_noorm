@@ -98,8 +98,9 @@ namespace Demo
             var existingPerson = repo.GetAsync("person.foo");
             if (existingPerson == null)
             {
-                var dp = new PersonState { PersonId = "person.foo", Pets = new List<PetState>() };
-                await repo.SavePersonAsync(dp);
+                var person = new PersonState { PersonId = "person.foo", Pets = new List<PetState>() };
+                var newPerson = _services.GetRequiredService<IMapper>().Map<Person>(person);
+                await repo.SavePersonAsync(newPerson);
             }
         }
 
