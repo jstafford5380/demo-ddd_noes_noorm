@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Demo.Application;
+using Demo.Application.Infrastructure;
 using Demo.Application.UseCases;
 using Demo.Application.UseCases.ManagingPets;
 using Demo.Domain.ManagePetContext.Model;

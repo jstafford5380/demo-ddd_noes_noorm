@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Demo.Application;
+using Demo.Application.Infrastructure;
 
 namespace Demo.Infrastructure.Data
 {
